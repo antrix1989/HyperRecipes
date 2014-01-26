@@ -4,4 +4,6 @@
 
 - (id)initWithName:(NSString *)name inManagedObjectContext:(NSManagedObjectContext *)context;
 
++ (NSString *)localizedStringLabelForDifficulty:(int)difficulty;
+
 @end

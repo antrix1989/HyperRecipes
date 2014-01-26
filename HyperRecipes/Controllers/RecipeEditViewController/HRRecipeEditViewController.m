@@ -55,9 +55,10 @@
     self.descriptionLabel.text = NSLocalizedString(@"DESCRIPTION", nil);
     self.instructionsLabel.text = NSLocalizedString(@"INSTRUCTIONS", nil);
     [self.addImageButton setTitle:NSLocalizedString(@"ADD IMAGE", nil) forState:UIControlStateNormal];
-    [self.difficultySegmentControl setTitle:NSLocalizedString(@"Easy", nil) forSegmentAtIndex:0];
-    [self.difficultySegmentControl setTitle:NSLocalizedString(@"Medium", nil) forSegmentAtIndex:1];
-    [self.difficultySegmentControl setTitle:NSLocalizedString(@"Hard", nil) forSegmentAtIndex:2];
+    
+    for (int i = 0; i < self.difficultySegmentControl.subviews.count; i++) {
+        [self.difficultySegmentControl setTitle:[Recipe localizedStringLabelForDifficulty:i + 1] forSegmentAtIndex:i];
+    }
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onDoneButtonTapped:)];
     
@@ -126,7 +127,7 @@
     if (isNewRecipe) {
         [self.managedObjectContext insertObject:self.recipe];
     }
-
+    
     NSError *error = nil;
     if (![self.managedObjectContext save:&error]) {
         NSLog(@"Error: %@", error);

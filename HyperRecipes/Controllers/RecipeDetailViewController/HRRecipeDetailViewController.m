@@ -79,7 +79,7 @@
     }
     
     self.nameValueLabel.text = self.recipe.name;
-    self.difficultyValueLabel.text = [self.recipe.difficulty stringValue];
+    self.difficultyValueLabel.text = [Recipe localizedStringLabelForDifficulty:[self.recipe.difficulty intValue]];
     [self.favoriteLabel setHidden:![self.recipe.favorite boolValue]];
     self.descriptionValueLabel.text = self.recipe.overview;
     self.instructionsValueLabel.text = self.recipe.instructions;
