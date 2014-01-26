@@ -14,17 +14,43 @@
 		CB0A5CCB188F001C009A9E1A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0A5CCA188F001C009A9E1A /* main.m */; };
 		CB0A5CCF188F001C009A9E1A /* HRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0A5CCE188F001C009A9E1A /* HRAppDelegate.m */; };
 		CB0A5CD1188F001C009A9E1A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB0A5CD0188F001C009A9E1A /* Images.xcassets */; };
-		CB0A5CF3188F0592009A9E1A /* HyperRecipes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CB0A5CF1188F0592009A9E1A /* HyperRecipes.xcdatamodeld */; };
 		CB0A5D00188F2813009A9E1A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB0A5CFF188F2813009A9E1A /* CoreData.framework */; };
 		CB0A5D20188FC371009A9E1A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB0A5D1F188FC371009A9E1A /* SystemConfiguration.framework */; };
-		CB0CF0C21891C12A009E8533 /* Recipe.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0CF0C11891C12A009E8533 /* Recipe.m */; };
 		CB0CF0C71891C58B009E8533 /* HRRecipeEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0CF0C51891C58B009E8533 /* HRRecipeEditViewController.m */; };
 		CB0CF0C81891C58B009E8533 /* HRRecipeEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB0CF0C61891C58B009E8533 /* HRRecipeEditViewController.xib */; };
 		CB0CF0CF1891C5D2009E8533 /* HRRecipeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0CF0CE1891C5D2009E8533 /* HRRecipeDetailViewController.m */; };
 		CB0CF0D11891C5ED009E8533 /* HRRecipeDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB0CF0D01891C5ED009E8533 /* HRRecipeDetailViewController.xib */; };
 		CB2100FA1891089B00788BC6 /* HRRecipeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB2100F91891089B00788BC6 /* HRRecipeListViewController.m */; };
+		CB23A21B18957C3E00F15E94 /* mogen.sh in Resources */ = {isa = PBXBuildFile; fileRef = CB23A21918957C3E00F15E94 /* mogen.sh */; };
+		CB23A21C18957C3E00F15E94 /* mogend.sh in Resources */ = {isa = PBXBuildFile; fileRef = CB23A21A18957C3E00F15E94 /* mogend.sh */; };
+		CB23A2251895813C00F15E94 /* HyperRecipes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2231895813C00F15E94 /* HyperRecipes.xcdatamodeld */; };
+		CB23A22D1895822200F15E94 /* _Recipe.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2291895822200F15E94 /* _Recipe.m */; };
+		CB23A22E1895822200F15E94 /* Recipe.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A22C1895822200F15E94 /* Recipe.m */; };
 		F12D8696479C46C484936703 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D4CB6EFD974B7880994914 /* libPods.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		CB23A2161895784A00F15E94 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = wrapper.xcdatamodeld;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).mom",
+			);
+			script = "echo \"Running mogend\"\n\"${PROJECT_DIR}/HyperRecipes/Scripts/mogend.sh\"";
+		};
+		CB23A2171895793E00F15E94 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			fileType = wrapper.xcdatamodel;
+			isEditable = 1;
+			outputFiles = (
+				"$(DERIVED_FILE_DIR)/$(INPUT_FILE_BASE).mom",
+			);
+			script = "echo \"Running mogen\"\n\"${PROJECT_DIR}/HyperRecipes/Scripts/mogen.sh\"";
+		};
+/* End PBXBuildRule section */
 
 /* Begin PBXFileReference section */
 		09D4CB6EFD974B7880994914 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -41,11 +67,8 @@
 		CB0A5CCE188F001C009A9E1A /* HRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HRAppDelegate.m; sourceTree = "<group>"; };
 		CB0A5CD0188F001C009A9E1A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		CB0A5CD7188F001C009A9E1A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		CB0A5CF2188F0592009A9E1A /* HyperRecipes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HyperRecipes.xcdatamodel; sourceTree = "<group>"; };
 		CB0A5CFF188F2813009A9E1A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CB0A5D1F188FC371009A9E1A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		CB0CF0C01891C12A009E8533 /* Recipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recipe.h; sourceTree = "<group>"; };
-		CB0CF0C11891C12A009E8533 /* Recipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recipe.m; sourceTree = "<group>"; };
 		CB0CF0C41891C58B009E8533 /* HRRecipeEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRRecipeEditViewController.h; sourceTree = "<group>"; };
 		CB0CF0C51891C58B009E8533 /* HRRecipeEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRRecipeEditViewController.m; sourceTree = "<group>"; };
 		CB0CF0C61891C58B009E8533 /* HRRecipeEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HRRecipeEditViewController.xib; sourceTree = "<group>"; };
@@ -54,6 +77,14 @@
 		CB0CF0D01891C5ED009E8533 /* HRRecipeDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HRRecipeDetailViewController.xib; sourceTree = "<group>"; };
 		CB2100F81891089B00788BC6 /* HRRecipeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRRecipeListViewController.h; sourceTree = "<group>"; };
 		CB2100F91891089B00788BC6 /* HRRecipeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRRecipeListViewController.m; sourceTree = "<group>"; };
+		CB23A21918957C3E00F15E94 /* mogen.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = mogen.sh; sourceTree = "<group>"; };
+		CB23A21A18957C3E00F15E94 /* mogend.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = mogend.sh; sourceTree = "<group>"; };
+		CB23A2241895813C00F15E94 /* HyperRecipes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HyperRecipes.xcdatamodel; sourceTree = "<group>"; };
+		CB23A2261895822200F15E94 /* ModelIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelIncludes.h; sourceTree = "<group>"; };
+		CB23A2281895822200F15E94 /* _Recipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Recipe.h; sourceTree = "<group>"; };
+		CB23A2291895822200F15E94 /* _Recipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Recipe.m; sourceTree = "<group>"; };
+		CB23A22B1895822200F15E94 /* Recipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recipe.h; sourceTree = "<group>"; };
+		CB23A22C1895822200F15E94 /* Recipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recipe.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +144,7 @@
 				CB0A5CF7188F21B9009A9E1A /* Controllers */,
 				CB0A5CF0188F0592009A9E1A /* Models */,
 				CB0A5CD0188F001C009A9E1A /* Images.xcassets */,
+				CB23A21818957C3E00F15E94 /* Scripts */,
 				CB0A5CC5188F001C009A9E1A /* Supporting Files */,
 			);
 			path = HyperRecipes;
@@ -132,9 +164,10 @@
 		CB0A5CF0188F0592009A9E1A /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				CB0CF0C01891C12A009E8533 /* Recipe.h */,
-				CB0CF0C11891C12A009E8533 /* Recipe.m */,
-				CB0A5CF1188F0592009A9E1A /* HyperRecipes.xcdatamodeld */,
+				CB23A2261895822200F15E94 /* ModelIncludes.h */,
+				CB23A2271895822200F15E94 /* EntitiesMachine */,
+				CB23A22A1895822200F15E94 /* Entities */,
+				CB23A2231895813C00F15E94 /* HyperRecipes.xcdatamodeld */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -178,6 +211,33 @@
 			path = RecipeListViewController;
 			sourceTree = "<group>";
 		};
+		CB23A21818957C3E00F15E94 /* Scripts */ = {
+			isa = PBXGroup;
+			children = (
+				CB23A21918957C3E00F15E94 /* mogen.sh */,
+				CB23A21A18957C3E00F15E94 /* mogend.sh */,
+			);
+			path = Scripts;
+			sourceTree = "<group>";
+		};
+		CB23A2271895822200F15E94 /* EntitiesMachine */ = {
+			isa = PBXGroup;
+			children = (
+				CB23A2281895822200F15E94 /* _Recipe.h */,
+				CB23A2291895822200F15E94 /* _Recipe.m */,
+			);
+			path = EntitiesMachine;
+			sourceTree = "<group>";
+		};
+		CB23A22A1895822200F15E94 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				CB23A22B1895822200F15E94 /* Recipe.h */,
+				CB23A22C1895822200F15E94 /* Recipe.m */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -192,6 +252,8 @@
 				C383864CB7A047ED9ACFA2D0 /* Copy Pods Resources */,
 			);
 			buildRules = (
+				CB23A2171895793E00F15E94 /* PBXBuildRule */,
+				CB23A2161895784A00F15E94 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -234,8 +296,10 @@
 			files = (
 				CB0A5CC9188F001C009A9E1A /* InfoPlist.strings in Resources */,
 				CB0CF0D11891C5ED009E8533 /* HRRecipeDetailViewController.xib in Resources */,
+				CB23A21C18957C3E00F15E94 /* mogend.sh in Resources */,
 				CB0A5CD1188F001C009A9E1A /* Images.xcassets in Resources */,
 				CB0CF0C81891C58B009E8533 /* HRRecipeEditViewController.xib in Resources */,
+				CB23A21B18957C3E00F15E94 /* mogen.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,13 +343,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB23A2251895813C00F15E94 /* HyperRecipes.xcdatamodeld in Sources */,
+				CB23A22E1895822200F15E94 /* Recipe.m in Sources */,
 				CB0A5CCF188F001C009A9E1A /* HRAppDelegate.m in Sources */,
-				CB0CF0C21891C12A009E8533 /* Recipe.m in Sources */,
+				CB23A22D1895822200F15E94 /* _Recipe.m in Sources */,
 				CB0CF0CF1891C5D2009E8533 /* HRRecipeDetailViewController.m in Sources */,
 				CB0A5CCB188F001C009A9E1A /* main.m in Sources */,
 				CB2100FA1891089B00788BC6 /* HRRecipeListViewController.m in Sources */,
 				CB0CF0C71891C58B009E8533 /* HRRecipeEditViewController.m in Sources */,
-				CB0A5CF3188F0592009A9E1A /* HyperRecipes.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,12 +492,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		CB0A5CF1188F0592009A9E1A /* HyperRecipes.xcdatamodeld */ = {
+		CB23A2231895813C00F15E94 /* HyperRecipes.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				CB0A5CF2188F0592009A9E1A /* HyperRecipes.xcdatamodel */,
+				CB23A2241895813C00F15E94 /* HyperRecipes.xcdatamodel */,
 			);
-			currentVersion = CB0A5CF2188F0592009A9E1A /* HyperRecipes.xcdatamodel */;
+			currentVersion = CB23A2241895813C00F15E94 /* HyperRecipes.xcdatamodel */;
 			path = HyperRecipes.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
