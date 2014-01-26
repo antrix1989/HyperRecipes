@@ -8,7 +8,7 @@
 
 #import "HRRecipeDetailViewController.h"
 #import "HRRecipeEditViewController.h"
-#import "Recipe.h"
+#import "HRRecipe.h"
 
 @interface HRRecipeDetailViewController ()
 
@@ -51,7 +51,7 @@
 
 #pragma mark - Public
 
-- (void)setRecipe:(Recipe *)recipe
+- (void)setRecipe:(HRRecipe *)recipe
 {
     _recipe = recipe;
     
@@ -79,7 +79,7 @@
     }
     
     self.nameValueLabel.text = self.recipe.name;
-    self.difficultyValueLabel.text = [Recipe localizedStringLabelForDifficulty:[self.recipe.difficulty intValue]];
+    self.difficultyValueLabel.text = [HRRecipe localizedStringLabelForDifficulty:[self.recipe.difficulty intValue]];
     [self.favoriteLabel setHidden:![self.recipe.favorite boolValue]];
     self.descriptionValueLabel.text = self.recipe.overview;
     self.instructionsValueLabel.text = self.recipe.instructions;

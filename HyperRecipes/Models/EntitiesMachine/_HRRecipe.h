@@ -1,23 +1,24 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to Recipe.h instead.
+// Make changes to HRRecipe.h instead.
 
 #import <CoreData/CoreData.h>
 
 
-extern const struct RecipeAttributes {
+extern const struct HRRecipeAttributes {
 	__unsafe_unretained NSString *difficulty;
 	__unsafe_unretained NSString *favorite;
 	__unsafe_unretained NSString *instructions;
 	__unsafe_unretained NSString *name;
 	__unsafe_unretained NSString *overview;
 	__unsafe_unretained NSString *photo;
-} RecipeAttributes;
+	__unsafe_unretained NSString *referenceID;
+} HRRecipeAttributes;
 
-extern const struct RecipeRelationships {
-} RecipeRelationships;
+extern const struct HRRecipeRelationships {
+} HRRecipeRelationships;
 
-extern const struct RecipeFetchedProperties {
-} RecipeFetchedProperties;
+extern const struct HRRecipeFetchedProperties {
+} HRRecipeFetchedProperties;
 
 
 
@@ -27,14 +28,15 @@ extern const struct RecipeFetchedProperties {
 
 @class UIImage;
 
-@interface RecipeID : NSManagedObjectID {}
+
+@interface HRRecipeID : NSManagedObjectID {}
 @end
 
-@interface _Recipe : NSManagedObject {}
+@interface _HRRecipe : NSManagedObject {}
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (RecipeID*)objectID;
+- (HRRecipeID*)objectID;
 
 
 
@@ -108,14 +110,28 @@ extern const struct RecipeFetchedProperties {
 
 
 
+@property (nonatomic, strong) NSNumber* referenceID;
+
+
+
+@property int16_t referenceIDValue;
+- (int16_t)referenceIDValue;
+- (void)setReferenceIDValue:(int16_t)value_;
+
+//- (BOOL)validateReferenceID:(id*)value_ error:(NSError**)error_;
+
+
+
+
+
 
 @end
 
-@interface _Recipe (CoreDataGeneratedAccessors)
+@interface _HRRecipe (CoreDataGeneratedAccessors)
 
 @end
 
-@interface _Recipe (CoreDataGeneratedPrimitiveAccessors)
+@interface _HRRecipe (CoreDataGeneratedPrimitiveAccessors)
 
 
 - (NSNumber*)primitiveDifficulty;
@@ -156,6 +172,15 @@ extern const struct RecipeFetchedProperties {
 
 - (UIImage*)primitivePhoto;
 - (void)setPrimitivePhoto:(UIImage*)value;
+
+
+
+
+- (NSNumber*)primitiveReferenceID;
+- (void)setPrimitiveReferenceID:(NSNumber*)value;
+
+- (int16_t)primitiveReferenceIDValue;
+- (void)setPrimitiveReferenceIDValue:(int16_t)value_;
 
 
 

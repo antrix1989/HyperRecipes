@@ -8,6 +8,8 @@
 
 #import "HRAppDelegate.h"
 #import "HRRecipeListViewController.h"
+#import "HRNetworkManager.h"
+#import "HRSynchronizationView.h"
 
 static NSString *kDBName = @"HyperRecipes";
 
@@ -16,6 +18,7 @@ static NSString *kDBName = @"HyperRecipes";
 @property (strong, nonatomic, readonly) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic, readonly) NSManagedObjectModel *managedObjectModel;
 @property (strong, nonatomic, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (strong, nonatomic) HRSynchronizationView *synchronizationView;
 
 @end
 
@@ -36,6 +39,26 @@ static NSString *kDBName = @"HyperRecipes";
     self.window.rootViewController = navigationController;
     
     [self.window makeKeyAndVisible];
+    
+    [self initSynchronizationView];
+    
+    NSLog(@"Synchronization...");
+    [[HRNetworkManager sharedInstance] synchronizeDbInContect:self.managedObjectContext withCompletionHandler:^(BOOL success) {
+        [self.synchronizationView removeFromSuperview];
+        
+        if (success) {
+            NSLog(@"Synchronization is done.");
+        } else {
+            NSLog(@"Synchronization is failed.");
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notice!"
+                                                            message:@"Synchronization is failed."
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+            [alert show];
+        }
+    }];
     
     return YES;
 }
@@ -107,5 +130,15 @@ static NSString *kDBName = @"HyperRecipes";
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+#pragma mark - Private
+
+- (void)initSynchronizationView
+{
+    NSArray *nibObjects = [[NSBundle mainBundle] loadNibNamed:@"HRSynchronizationView" owner:self options:nil];
+    self.synchronizationView = (HRSynchronizationView *)[nibObjects objectAtIndex:0];
+    self.synchronizationView.frame = self.window.rootViewController.view.bounds;
+    [self.synchronizationView setCenter:self.window.rootViewController.view.center];
+    [self.window.rootViewController.view addSubview:self.synchronizationView];
+}
 
 @end

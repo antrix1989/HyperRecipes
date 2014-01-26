@@ -9,7 +9,8 @@
 #import "HRRecipeListViewController.h"
 #import "HRRecipeEditViewController.h"
 #import "HRRecipeDetailViewController.h"
-#import "Recipe.h"
+#import "HRNetworkManager.h"
+#import "HRRecipe.h"
 
 @interface HRRecipeListViewController () <NSFetchedResultsControllerDelegate>
 
@@ -27,7 +28,7 @@
     
     self.title = NSLocalizedString(@"Recipes", nil);
     
-    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Recipe"];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"HRRecipe"];
     fetchRequest.sortDescriptors = [NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]];
     fetchRequest.returnsObjectsAsFaults = NO;
     fetchRequest.includesPendingChanges = NO;
@@ -39,6 +40,11 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(onAddRecipeButtonTapped:)];
     
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
 }
 
 #pragma mark - IBAction
@@ -73,8 +79,8 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    Recipe *recipe = (Recipe *)[_fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[recipe name] description];
+    HRRecipe *recipe = (HRRecipe *)[_fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = [recipe name];
     cell.imageView.image = recipe.photo;
     
     return cell;
@@ -85,13 +91,27 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the managed object for the given index path.
 		NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-		[context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-		
-		// Save the context.
-		NSError *error;
-		if (![context save:&error]) {
-			NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		}
+        
+        HRRecipe *recipe = (HRRecipe *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+        
+        [[HRNetworkManager sharedInstance] deleteRecipe:recipe withCompletionHandler:^(BOOL success) {
+            if (success) {
+                [context deleteObject:recipe];
+                
+                // Save the context.
+                NSError *error;
+                if (![context save:&error]) {
+                    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                }
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notice!"
+                                                                message:@"Recipe is not deleted. Error on server has occured."
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles: nil];
+                [alert show];
+            }
+        }];
 	}
 }
 
@@ -99,7 +119,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	Recipe *recipe = (Recipe *)[self.fetchedResultsController objectAtIndexPath:indexPath];
+	HRRecipe *recipe = (HRRecipe *)[self.fetchedResultsController objectAtIndexPath:indexPath];
     
     HRRecipeDetailViewController *recipeDetailViewController = [HRRecipeDetailViewController new];
     recipeDetailViewController.managedObjectContext = self.managedObjectContext;

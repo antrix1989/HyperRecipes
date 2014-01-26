@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 antrix1989@gmail.com. All rights reserved.
 //
 
-@class Recipe;
+@class HRRecipe;
 
 @interface HRRecipeEditViewController : UIViewController
 
-@property (strong, nonatomic) Recipe *recipe;
+@property (strong, nonatomic) HRRecipe *recipe;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @end

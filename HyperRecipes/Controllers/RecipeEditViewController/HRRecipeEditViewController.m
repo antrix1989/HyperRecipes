@@ -7,7 +7,8 @@
 //
 
 #import "HRRecipeEditViewController.h"
-#import "Recipe.h"
+#import "HRRecipe.h"
+#import "HRNetworkManager.h"
 
 @interface HRRecipeEditViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate>
 
@@ -28,6 +29,7 @@
 @property (strong, nonatomic) UIImage *pickedImage;
 @property (strong, nonatomic) UITextView *activeTextView;
 @property (assign, nonatomic) UIEdgeInsets scrollContentInsets;
+@property (strong, nonatomic) NSDictionary *backingRecipeAttributes;
 
 - (IBAction)onAddButtonTapped:(id)sender;
 
@@ -57,7 +59,7 @@
     [self.addImageButton setTitle:NSLocalizedString(@"ADD IMAGE", nil) forState:UIControlStateNormal];
     
     for (int i = 0; i < self.difficultySegmentControl.subviews.count; i++) {
-        [self.difficultySegmentControl setTitle:[Recipe localizedStringLabelForDifficulty:i + 1] forSegmentAtIndex:i];
+        [self.difficultySegmentControl setTitle:[HRRecipe localizedStringLabelForDifficulty:i + 1] forSegmentAtIndex:i];
     }
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onDoneButtonTapped:)];
@@ -77,26 +79,7 @@
     
     [self registerForKeyboardNotifications];
     
-    self.photoImageView.image = self.pickedImage ? : self.recipe.photo;
-    
-    // If image is shown, hide button title.
-    if (self.photoImageView.image) {
-        [self.addImageButton setTitle:@"" forState:UIControlStateNormal];
-    }
-    
-    if (!self.recipe) {
-        return;
-    }
-        
-    self.nameTextField.text = self.recipe.name;
-    
-    if (self.recipe.difficulty > 0) {
-        self.difficultySegmentControl.selectedSegmentIndex = [self.recipe.difficulty integerValue] - 1;
-    }
-    
-    self.descriptionTextView.text = self.recipe.overview;
-    self.instructionsTextView.text = self.recipe.instructions;
-    self.favoriteSwitch.on = [self.recipe.favorite boolValue];
+    [self updateUi];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -106,6 +89,15 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - Public
+
+- (void)setRecipe:(HRRecipe *)recipe
+{
+    _recipe = recipe;
+    
+    self.backingRecipeAttributes = [recipe dictionaryWithValuesForKeys:[recipe.entity.attributesByName allKeys]];
+}
+
 #pragma mark - IBAction
 
 - (void)onDoneButtonTapped:(id)sender
@@ -113,7 +105,7 @@
     BOOL isNewRecipe = self.recipe == nil;
     
     if (!self.recipe) {
-        self.recipe = [[Recipe alloc] initWithName:self.nameTextField.text inManagedObjectContext:self.managedObjectContext];
+        self.recipe = [[HRRecipe alloc] initWithName:self.nameTextField.text inManagedObjectContext:self.managedObjectContext];
     } else {
         self.recipe.name = self.nameTextField.text;
     }
@@ -125,15 +117,42 @@
     self.recipe.photo = self.photoImageView.image;
 
     if (isNewRecipe) {
-        [self.managedObjectContext insertObject:self.recipe];
+        [[HRNetworkManager sharedInstance] createRecipe:self.recipe withCompletionHandler:^(BOOL success) {
+            if (success) {
+                [self.managedObjectContext insertObject:self.recipe];
+            } else {
+                [self dismissViewControllerAnimated:YES completion:^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notice!"
+                                                                    message:@"Recipe is not saved. Error on server has occured."
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles: nil];
+                    [alert show];
+                }];
+            }
+        }];
+    } else {
+        [[HRNetworkManager sharedInstance] updateRecipe:self.recipe withCompletionHandler:^(BOOL success) {
+            if (success) {
+                NSError *error = nil;
+                if (![self.managedObjectContext save:&error]) {
+                    NSLog(@"Error: %@", error);
+                }
+            } else {
+                [self.recipe setValuesForKeysWithDictionary:self.backingRecipeAttributes];
+                [self updateUi];
+                
+                [self dismissViewControllerAnimated:YES completion:^{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notice!"
+                                                                    message:@"Recipe is not updated. Error on server has occured."
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"OK"
+                                                          otherButtonTitles: nil];
+                    [alert show];
+                }];
+            }
+        }];
     }
-    
-    NSError *error = nil;
-    if (![self.managedObjectContext save:&error]) {
-        NSLog(@"Error: %@", error);
-    }
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)onCancellButtonTapped:(id)sender
@@ -223,6 +242,30 @@
                                              selector:@selector(keyboardWillBeHidden:)
                                                  name:UIKeyboardWillHideNotification object:nil];
     
+}
+
+- (void)updateUi
+{
+    self.photoImageView.image = self.pickedImage ? : self.recipe.photo;
+    
+    // If image is shown, hide button title.
+    if (self.photoImageView.image) {
+        [self.addImageButton setTitle:@"" forState:UIControlStateNormal];
+    }
+    
+    if (!self.recipe) {
+        return;
+    }
+    
+    self.nameTextField.text = self.recipe.name;
+    
+    if (self.recipe.difficulty > 0) {
+        self.difficultySegmentControl.selectedSegmentIndex = [self.recipe.difficulty integerValue] - 1;
+    }
+    
+    self.descriptionTextView.text = self.recipe.overview;
+    self.instructionsTextView.text = self.recipe.instructions;
+    self.favoriteSwitch.on = [self.recipe.favorite boolValue];
 }
 
 @end

@@ -1,44 +1,45 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to Recipe.m instead.
+// Make changes to HRRecipe.m instead.
 
-#import "_Recipe.h"
+#import "_HRRecipe.h"
 
-const struct RecipeAttributes RecipeAttributes = {
+const struct HRRecipeAttributes HRRecipeAttributes = {
 	.difficulty = @"difficulty",
 	.favorite = @"favorite",
 	.instructions = @"instructions",
 	.name = @"name",
 	.overview = @"overview",
 	.photo = @"photo",
+	.referenceID = @"referenceID",
 };
 
-const struct RecipeRelationships RecipeRelationships = {
+const struct HRRecipeRelationships HRRecipeRelationships = {
 };
 
-const struct RecipeFetchedProperties RecipeFetchedProperties = {
+const struct HRRecipeFetchedProperties HRRecipeFetchedProperties = {
 };
 
-@implementation RecipeID
+@implementation HRRecipeID
 @end
 
-@implementation _Recipe
+@implementation _HRRecipe
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription insertNewObjectForEntityForName:@"Recipe" inManagedObjectContext:moc_];
+	return [NSEntityDescription insertNewObjectForEntityForName:@"HRRecipe" inManagedObjectContext:moc_];
 }
 
 + (NSString*)entityName {
-	return @"Recipe";
+	return @"HRRecipe";
 }
 
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName:@"Recipe" inManagedObjectContext:moc_];
+	return [NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:moc_];
 }
 
-- (RecipeID*)objectID {
-	return (RecipeID*)[super objectID];
+- (HRRecipeID*)objectID {
+	return (HRRecipeID*)[super objectID];
 }
 
 + (NSSet*)keyPathsForValuesAffectingValueForKey:(NSString*)key {
@@ -51,6 +52,11 @@ const struct RecipeFetchedProperties RecipeFetchedProperties = {
 	}
 	if ([key isEqualToString:@"favoriteValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"favorite"];
+		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
+		return keyPaths;
+	}
+	if ([key isEqualToString:@"referenceIDValue"]) {
+		NSSet *affectingKey = [NSSet setWithObject:@"referenceID"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
@@ -136,6 +142,32 @@ const struct RecipeFetchedProperties RecipeFetchedProperties = {
 
 @dynamic photo;
 
+
+
+
+
+
+@dynamic referenceID;
+
+
+
+- (int16_t)referenceIDValue {
+	NSNumber *result = [self referenceID];
+	return [result shortValue];
+}
+
+- (void)setReferenceIDValue:(int16_t)value_ {
+	[self setReferenceID:[NSNumber numberWithShort:value_]];
+}
+
+- (int16_t)primitiveReferenceIDValue {
+	NSNumber *result = [self primitiveReferenceID];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveReferenceIDValue:(int16_t)value_ {
+	[self setPrimitiveReferenceID:[NSNumber numberWithShort:value_]];
+}
 
 
 

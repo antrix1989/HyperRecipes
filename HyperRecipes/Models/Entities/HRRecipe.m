@@ -1,16 +1,17 @@
-#import "Recipe.h"
+#import "HRRecipe.h"
 
-@interface Recipe ()
+@interface HRRecipe ()
 
 @end
 
-@implementation Recipe
+@implementation HRRecipe
 
 #pragma mark - Public
 
 - (id)initWithName:(NSString *)name inManagedObjectContext:(NSManagedObjectContext *)context
 {
-    self = [self initWithEntity:[NSEntityDescription entityForName:@"Recipe" inManagedObjectContext:context] insertIntoManagedObjectContext:nil];
+#warning check.
+    self = [self initWithEntity:[NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:context] insertIntoManagedObjectContext:nil];
     if (!self) {
         return nil;
     }

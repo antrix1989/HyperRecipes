@@ -1,6 +1,6 @@
-#import "_Recipe.h"
+#import "_HRRecipe.h"
 
-@interface Recipe : _Recipe {}
+@interface HRRecipe : _HRRecipe
 
 - (id)initWithName:(NSString *)name inManagedObjectContext:(NSManagedObjectContext *)context;
 

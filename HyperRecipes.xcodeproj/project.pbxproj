@@ -20,12 +20,17 @@
 		CB0CF0C81891C58B009E8533 /* HRRecipeEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB0CF0C61891C58B009E8533 /* HRRecipeEditViewController.xib */; };
 		CB0CF0CF1891C5D2009E8533 /* HRRecipeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0CF0CE1891C5D2009E8533 /* HRRecipeDetailViewController.m */; };
 		CB0CF0D11891C5ED009E8533 /* HRRecipeDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB0CF0D01891C5ED009E8533 /* HRRecipeDetailViewController.xib */; };
+		CB17EC8F1897B1F8006B0F98 /* HRSynchronizationView.m in Sources */ = {isa = PBXBuildFile; fileRef = CB17EC8D1897B1F8006B0F98 /* HRSynchronizationView.m */; };
+		CB17EC911897B210006B0F98 /* HRSynchronizationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB17EC901897B210006B0F98 /* HRSynchronizationView.xib */; };
 		CB2100FA1891089B00788BC6 /* HRRecipeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB2100F91891089B00788BC6 /* HRRecipeListViewController.m */; };
 		CB23A21B18957C3E00F15E94 /* mogen.sh in Resources */ = {isa = PBXBuildFile; fileRef = CB23A21918957C3E00F15E94 /* mogen.sh */; };
 		CB23A21C18957C3E00F15E94 /* mogend.sh in Resources */ = {isa = PBXBuildFile; fileRef = CB23A21A18957C3E00F15E94 /* mogend.sh */; };
 		CB23A2251895813C00F15E94 /* HyperRecipes.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2231895813C00F15E94 /* HyperRecipes.xcdatamodeld */; };
-		CB23A22D1895822200F15E94 /* _Recipe.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2291895822200F15E94 /* _Recipe.m */; };
-		CB23A22E1895822200F15E94 /* Recipe.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A22C1895822200F15E94 /* Recipe.m */; };
+		CB23A2341895ABD100F15E94 /* _HRRecipe.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2321895ABD100F15E94 /* _HRRecipe.m */; };
+		CB23A2371895ABDC00F15E94 /* HRRecipe.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2351895ABDC00F15E94 /* HRRecipe.m */; };
+		CB23A23B1895AE4E00F15E94 /* HRNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A23A1895AE4E00F15E94 /* HRNetworkManager.m */; };
+		CB23A2421895AEAE00F15E94 /* HRJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2411895AEAE00F15E94 /* HRJsonParser.m */; };
+		CB23A2451895AF3C00F15E94 /* HRRecipeParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2441895AF3C00F15E94 /* HRRecipeParser.m */; };
 		F12D8696479C46C484936703 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D4CB6EFD974B7880994914 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -75,16 +80,25 @@
 		CB0CF0CD1891C5D2009E8533 /* HRRecipeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRRecipeDetailViewController.h; sourceTree = "<group>"; };
 		CB0CF0CE1891C5D2009E8533 /* HRRecipeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRRecipeDetailViewController.m; sourceTree = "<group>"; };
 		CB0CF0D01891C5ED009E8533 /* HRRecipeDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HRRecipeDetailViewController.xib; sourceTree = "<group>"; };
+		CB17EC8D1897B1F8006B0F98 /* HRSynchronizationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRSynchronizationView.m; sourceTree = "<group>"; };
+		CB17EC8E1897B1F8006B0F98 /* HRSynchronizationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRSynchronizationView.h; sourceTree = "<group>"; };
+		CB17EC901897B210006B0F98 /* HRSynchronizationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HRSynchronizationView.xib; sourceTree = "<group>"; };
 		CB2100F81891089B00788BC6 /* HRRecipeListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRRecipeListViewController.h; sourceTree = "<group>"; };
 		CB2100F91891089B00788BC6 /* HRRecipeListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRRecipeListViewController.m; sourceTree = "<group>"; };
 		CB23A21918957C3E00F15E94 /* mogen.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = mogen.sh; sourceTree = "<group>"; };
 		CB23A21A18957C3E00F15E94 /* mogend.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = mogend.sh; sourceTree = "<group>"; };
 		CB23A2241895813C00F15E94 /* HyperRecipes.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HyperRecipes.xcdatamodel; sourceTree = "<group>"; };
 		CB23A2261895822200F15E94 /* ModelIncludes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelIncludes.h; sourceTree = "<group>"; };
-		CB23A2281895822200F15E94 /* _Recipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Recipe.h; sourceTree = "<group>"; };
-		CB23A2291895822200F15E94 /* _Recipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Recipe.m; sourceTree = "<group>"; };
-		CB23A22B1895822200F15E94 /* Recipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Recipe.h; sourceTree = "<group>"; };
-		CB23A22C1895822200F15E94 /* Recipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Recipe.m; sourceTree = "<group>"; };
+		CB23A2321895ABD100F15E94 /* _HRRecipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _HRRecipe.m; sourceTree = "<group>"; };
+		CB23A2331895ABD100F15E94 /* _HRRecipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _HRRecipe.h; sourceTree = "<group>"; };
+		CB23A2351895ABDC00F15E94 /* HRRecipe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRRecipe.m; sourceTree = "<group>"; };
+		CB23A2361895ABDC00F15E94 /* HRRecipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRRecipe.h; sourceTree = "<group>"; };
+		CB23A2391895AE4E00F15E94 /* HRNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRNetworkManager.h; sourceTree = "<group>"; };
+		CB23A23A1895AE4E00F15E94 /* HRNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRNetworkManager.m; sourceTree = "<group>"; };
+		CB23A2401895AEAE00F15E94 /* HRJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRJsonParser.h; sourceTree = "<group>"; };
+		CB23A2411895AEAE00F15E94 /* HRJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRJsonParser.m; sourceTree = "<group>"; };
+		CB23A2431895AF3C00F15E94 /* HRRecipeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRRecipeParser.h; sourceTree = "<group>"; };
+		CB23A2441895AF3C00F15E94 /* HRRecipeParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRRecipeParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,8 +155,10 @@
 			children = (
 				CB0A5CCD188F001C009A9E1A /* HRAppDelegate.h */,
 				CB0A5CCE188F001C009A9E1A /* HRAppDelegate.m */,
+				CB23A2381895AE4E00F15E94 /* NetworkManager */,
 				CB0A5CF7188F21B9009A9E1A /* Controllers */,
 				CB0A5CF0188F0592009A9E1A /* Models */,
+				CB17EC8C1897B1DC006B0F98 /* Views */,
 				CB0A5CD0188F001C009A9E1A /* Images.xcassets */,
 				CB23A21818957C3E00F15E94 /* Scripts */,
 				CB0A5CC5188F001C009A9E1A /* Supporting Files */,
@@ -202,6 +218,16 @@
 			path = RecipeDetailViewController;
 			sourceTree = "<group>";
 		};
+		CB17EC8C1897B1DC006B0F98 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CB17EC8E1897B1F8006B0F98 /* HRSynchronizationView.h */,
+				CB17EC8D1897B1F8006B0F98 /* HRSynchronizationView.m */,
+				CB17EC901897B210006B0F98 /* HRSynchronizationView.xib */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		CB2100F71891089B00788BC6 /* RecipeListViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,8 +249,8 @@
 		CB23A2271895822200F15E94 /* EntitiesMachine */ = {
 			isa = PBXGroup;
 			children = (
-				CB23A2281895822200F15E94 /* _Recipe.h */,
-				CB23A2291895822200F15E94 /* _Recipe.m */,
+				CB23A2331895ABD100F15E94 /* _HRRecipe.h */,
+				CB23A2321895ABD100F15E94 /* _HRRecipe.m */,
 			);
 			path = EntitiesMachine;
 			sourceTree = "<group>";
@@ -232,10 +258,31 @@
 		CB23A22A1895822200F15E94 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				CB23A22B1895822200F15E94 /* Recipe.h */,
-				CB23A22C1895822200F15E94 /* Recipe.m */,
+				CB23A2361895ABDC00F15E94 /* HRRecipe.h */,
+				CB23A2351895ABDC00F15E94 /* HRRecipe.m */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		CB23A2381895AE4E00F15E94 /* NetworkManager */ = {
+			isa = PBXGroup;
+			children = (
+				CB23A2391895AE4E00F15E94 /* HRNetworkManager.h */,
+				CB23A23A1895AE4E00F15E94 /* HRNetworkManager.m */,
+				CB23A23F1895AEAE00F15E94 /* Parsers */,
+			);
+			path = NetworkManager;
+			sourceTree = "<group>";
+		};
+		CB23A23F1895AEAE00F15E94 /* Parsers */ = {
+			isa = PBXGroup;
+			children = (
+				CB23A2401895AEAE00F15E94 /* HRJsonParser.h */,
+				CB23A2411895AEAE00F15E94 /* HRJsonParser.m */,
+				CB23A2431895AF3C00F15E94 /* HRRecipeParser.h */,
+				CB23A2441895AF3C00F15E94 /* HRRecipeParser.m */,
+			);
+			path = Parsers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -298,6 +345,7 @@
 				CB0CF0D11891C5ED009E8533 /* HRRecipeDetailViewController.xib in Resources */,
 				CB23A21C18957C3E00F15E94 /* mogend.sh in Resources */,
 				CB0A5CD1188F001C009A9E1A /* Images.xcassets in Resources */,
+				CB17EC911897B210006B0F98 /* HRSynchronizationView.xib in Resources */,
 				CB0CF0C81891C58B009E8533 /* HRRecipeEditViewController.xib in Resources */,
 				CB23A21B18957C3E00F15E94 /* mogen.sh in Resources */,
 			);
@@ -344,13 +392,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB23A2251895813C00F15E94 /* HyperRecipes.xcdatamodeld in Sources */,
-				CB23A22E1895822200F15E94 /* Recipe.m in Sources */,
+				CB17EC8F1897B1F8006B0F98 /* HRSynchronizationView.m in Sources */,
+				CB23A2451895AF3C00F15E94 /* HRRecipeParser.m in Sources */,
 				CB0A5CCF188F001C009A9E1A /* HRAppDelegate.m in Sources */,
-				CB23A22D1895822200F15E94 /* _Recipe.m in Sources */,
 				CB0CF0CF1891C5D2009E8533 /* HRRecipeDetailViewController.m in Sources */,
+				CB23A23B1895AE4E00F15E94 /* HRNetworkManager.m in Sources */,
+				CB23A2421895AEAE00F15E94 /* HRJsonParser.m in Sources */,
 				CB0A5CCB188F001C009A9E1A /* main.m in Sources */,
+				CB23A2371895ABDC00F15E94 /* HRRecipe.m in Sources */,
 				CB2100FA1891089B00788BC6 /* HRRecipeListViewController.m in Sources */,
 				CB0CF0C71891C58B009E8533 /* HRRecipeEditViewController.m in Sources */,
+				CB23A2341895ABD100F15E94 /* _HRRecipe.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
