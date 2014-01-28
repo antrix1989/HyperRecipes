@@ -2,7 +2,7 @@
 
 @interface HRRecipe : _HRRecipe
 
-- (id)initWithName:(NSString *)name inManagedObjectContext:(NSManagedObjectContext *)context;
+- (id)initWithName:(NSString *)name andDifficulty:(NSNumber *)difficulty inManagedObjectContext:(NSManagedObjectContext *)context;
 
 + (NSString *)localizedStringLabelForDifficulty:(int)difficulty;
 

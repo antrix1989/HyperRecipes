@@ -35,7 +35,7 @@ static NSString *const kApiBaseURLString = @"http://hyper-recipes.herokuapp.com"
 }
 
 - (void)synchronizeDbInContect:(NSManagedObjectContext *)managedObjectContext
-         withCompletionHandler:(void (^)(BOOL success))completion;
+         withCompletionHandler:(void (^)(BOOL success))completion
 {
     NSString *urlString = [NSString stringWithFormat:@"%@/%@.json", kApiBaseURLString, @"recipes"];
     
@@ -107,12 +107,13 @@ static NSString *const kApiBaseURLString = @"http://hyper-recipes.herokuapp.com"
     }];
 }
 
-- (void)createRecipe:(HRRecipe *)recipe withCompletionHandler:(void (^)(BOOL success))completion
+- (void)createRecipe:(HRRecipe *)recipe
+         withContext:(NSManagedObjectContext *)managedObjectContext
+withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completion
 {
-    HRRecipeParser *recipeParser = [HRRecipeParser new];
-    
     NSDictionary *managedObjectAttributes = [recipe dictionaryWithValuesForKeys:[recipe.entity.attributesByName allKeys]];
     
+    HRRecipeParser *recipeParser = [HRRecipeParser new];
     [recipeParser representationOfAttributes:managedObjectAttributes withCompletionHandler:^(NSDictionary *parameters) {
         
         UIImage *photoImage = recipe.photo;
@@ -129,14 +130,18 @@ static NSString *const kApiBaseURLString = @"http://hyper-recipes.herokuapp.com"
         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"Success: %@", responseObject);
             
-            if (completion) {
-                completion(YES);
-            }
+            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:managedObjectContext];
+            
+            [recipeParser attributesForRepresentation:responseObject ofEntity:entityDescription withCompletionHandler:^(NSDictionary *attributes) {
+                if (completion) {
+                    completion(YES, attributes);
+                }
+            }];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Error: %@", error);
             
             if (completion) {
-                completion(NO);
+                completion(NO, nil);
             }
         }];
     }];

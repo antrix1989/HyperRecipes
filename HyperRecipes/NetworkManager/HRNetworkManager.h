@@ -14,7 +14,9 @@
 
 - (void)synchronizeDbInContect:(NSManagedObjectContext *)managedObjectContext withCompletionHandler:(void (^)(BOOL success))completion;
 
-- (void)createRecipe:(HRRecipe *)recipe withCompletionHandler:(void (^)(BOOL success))completion;
+- (void)createRecipe:(HRRecipe *)recipe
+         withContext:(NSManagedObjectContext *)managedObjectContext
+withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completion;
 
 - (void)updateRecipe:(HRRecipe *)recipe withCompletionHandler:(void (^)(BOOL success))completion;
 

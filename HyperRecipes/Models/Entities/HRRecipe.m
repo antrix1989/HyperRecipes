@@ -8,16 +8,15 @@
 
 #pragma mark - Public
 
-- (id)initWithName:(NSString *)name inManagedObjectContext:(NSManagedObjectContext *)context
+- (id)initWithName:(NSString *)name andDifficulty:(NSNumber *)difficulty inManagedObjectContext:(NSManagedObjectContext *)context;
 {
-#warning check.
     self = [self initWithEntity:[NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:context] insertIntoManagedObjectContext:nil];
     if (!self) {
         return nil;
     }
     
     self.name = name;
-    self.difficulty = @(1);
+    self.difficulty = difficulty;
     
     return self;
 }

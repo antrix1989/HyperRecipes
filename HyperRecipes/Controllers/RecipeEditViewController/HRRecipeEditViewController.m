@@ -107,12 +107,14 @@
     BOOL isNewRecipe = self.recipe == nil;
     
     if (!self.recipe) {
-        self.recipe = [[HRRecipe alloc] initWithName:self.nameTextField.text inManagedObjectContext:self.managedObjectContext];
+        self.recipe = [[HRRecipe alloc] initWithName:self.nameTextField.text
+                                       andDifficulty:[[NSNumber alloc] initWithInt:self.difficultySegmentControl.selectedSegmentIndex + 1]
+                              inManagedObjectContext:self.managedObjectContext];
     } else {
         self.recipe.name = self.nameTextField.text;
+        self.recipe.difficulty = [[NSNumber alloc] initWithInt:self.difficultySegmentControl.selectedSegmentIndex + 1];
     }
     
-    self.recipe.difficulty = [[NSNumber alloc] initWithInt:self.difficultySegmentControl.selectedSegmentIndex + 1];
     self.recipe.overview = self.descriptionTextView.text;
     self.recipe.instructions = self.instructionsTextView.text;
     self.recipe.favorite = [[NSNumber alloc] initWithBool:self.favoriteSwitch.on];
@@ -121,10 +123,13 @@
     [self showSynchronizationView];
     
     if (isNewRecipe) {
-        [[HRNetworkManager sharedInstance] createRecipe:self.recipe withCompletionHandler:^(BOOL success) {
+        [[HRNetworkManager sharedInstance] createRecipe:self.recipe
+                                            withContext:self.managedObjectContext
+                                  withCompletionHandler:^(BOOL success, NSDictionary *attributes) {
             [self hideSynchronizationView];
             
             if (success) {
+                [self.recipe setValuesForKeysWithDictionary:attributes];
                 [self.managedObjectContext insertObject:self.recipe];
                 
                 [self dismissViewControllerAnimated:YES completion:nil];
