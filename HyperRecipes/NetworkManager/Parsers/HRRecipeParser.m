@@ -10,50 +10,65 @@
 
 @implementation HRRecipeParser
 
-- (NSDictionary *)attributesForRepresentation:(NSDictionary *)representation ofEntity:(NSEntityDescription *)entity
+- (void)attributesForRepresentation:(NSDictionary *)representation
+                           ofEntity:(NSEntityDescription *)entity
+              withCompletionHandler:(void (^)(NSDictionary *dictionary))completion;
 {
-    if ([representation isEqual:[NSNull null]]) {
-        return nil;
+    if (!completion) {
+        return;
     }
     
-    NSMutableDictionary *mutableAttributes = [[super attributesForRepresentation:representation ofEntity:entity] mutableCopy];
+    [super attributesForRepresentation:representation ofEntity:entity withCompletionHandler:^(NSDictionary *dictionary) {
     
-    NSNumberFormatter *numberFormatter = [NSNumberFormatter new];
-    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    
-    NSString *difficulty = [mutableAttributes objectForKey:@"difficulty"];
-    [mutableAttributes setObject:[numberFormatter numberFromString:difficulty] forKey:@"difficulty"];
-    
-    NSString *referenceID = [representation objectForKey:@"id"];
-    if (referenceID) {
-        [mutableAttributes setObject:referenceID forKey:@"referenceID"];
-    }
-    
-    NSString *photoUrlString = [[mutableAttributes objectForKey:@"photo"] objectForKey:@"url"];
-    
-#warning PUT INTO THREAD!
-    if (![photoUrlString isEqual:[NSNull null]]) {
-//        NSURL *photoUrl = [NSURL URLWithString:photoUrlString];
-//        NSData *data = [NSData dataWithContentsOfURL:photoUrl];
-//        UIImage *photoImage = [[UIImage alloc] initWithData:data];
-//        [mutableAttributes setObject:photoImage forKey:@"photo"];
-        [mutableAttributes removeObjectForKey:@"photo"];
-    } else {
-        [mutableAttributes removeObjectForKey:@"photo"];
-    }
-    
-    return mutableAttributes;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSMutableDictionary *mutableAttributes = [dictionary mutableCopy];
+            
+            NSNumberFormatter *numberFormatter = [NSNumberFormatter new];
+            [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+            
+            NSString *difficulty = [mutableAttributes objectForKey:@"difficulty"];
+            [mutableAttributes setObject:[numberFormatter numberFromString:difficulty] forKey:@"difficulty"];
+            
+            NSString *referenceID = [representation objectForKey:@"id"];
+            if (referenceID) {
+                [mutableAttributes setObject:referenceID forKey:@"referenceID"];
+            }
+            
+            NSString *photoUrlString = [[mutableAttributes objectForKey:@"photo"] objectForKey:@"url"];
+            
+            if (![photoUrlString isEqual:[NSNull null]]) {
+                NSURL *photoUrl = [NSURL URLWithString:photoUrlString];
+                NSData *data = [NSData dataWithContentsOfURL:photoUrl];
+                UIImage *photoImage = [[UIImage alloc] initWithData:data];
+                
+                [mutableAttributes setObject:photoImage forKey:@"photo"];
+            } else {
+                [mutableAttributes removeObjectForKey:@"photo"];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(mutableAttributes);
+            });
+        });
+    }];
 }
 
-- (NSDictionary *)representationOfAttributes:(NSDictionary *)attributes;
+- (void)representationOfAttributes:(NSDictionary *)attributes
+             withCompletionHandler:(void (^)(NSDictionary *dictionary))completion
 {
+    if (!completion) {
+        return;
+    }
+    
     NSMutableDictionary *mutableAttributes = [attributes mutableCopy];
+    
+    [mutableAttributes setObject:mutableAttributes[@"overview"] forKey:@"description"];
     
     [mutableAttributes removeObjectForKey:@"photo"];
     [mutableAttributes removeObjectForKey:@"overview"];
     [mutableAttributes removeObjectForKey:@"referenceID"];
     
-    return @{@"recipe":mutableAttributes};
+    completion(@{@"recipe":mutableAttributes});
 }
 
 @end

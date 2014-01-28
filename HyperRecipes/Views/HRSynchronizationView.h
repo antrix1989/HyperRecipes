@@ -9,5 +9,6 @@
 @interface HRSynchronizationView : UIView
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UILabel *synchronizationLable;
 
 @end

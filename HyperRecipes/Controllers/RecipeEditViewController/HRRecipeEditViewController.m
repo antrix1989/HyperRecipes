@@ -9,6 +9,7 @@
 #import "HRRecipeEditViewController.h"
 #import "HRRecipe.h"
 #import "HRNetworkManager.h"
+#import "HRSynchronizationView.h"
 
 @interface HRRecipeEditViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextViewDelegate>
 
@@ -30,6 +31,7 @@
 @property (strong, nonatomic) UITextView *activeTextView;
 @property (assign, nonatomic) UIEdgeInsets scrollContentInsets;
 @property (strong, nonatomic) NSDictionary *backingRecipeAttributes;
+@property (strong, nonatomic) HRSynchronizationView *synchronizationView;
 
 - (IBAction)onAddButtonTapped:(id)sender;
 
@@ -116,10 +118,16 @@
     self.recipe.favorite = [[NSNumber alloc] initWithBool:self.favoriteSwitch.on];
     self.recipe.photo = self.photoImageView.image;
 
+    [self showSynchronizationView];
+    
     if (isNewRecipe) {
         [[HRNetworkManager sharedInstance] createRecipe:self.recipe withCompletionHandler:^(BOOL success) {
+            [self hideSynchronizationView];
+            
             if (success) {
                 [self.managedObjectContext insertObject:self.recipe];
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
             } else {
                 [self dismissViewControllerAnimated:YES completion:^{
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notice!"
@@ -133,11 +141,15 @@
         }];
     } else {
         [[HRNetworkManager sharedInstance] updateRecipe:self.recipe withCompletionHandler:^(BOOL success) {
+            [self hideSynchronizationView];
+            
             if (success) {
                 NSError *error = nil;
                 if (![self.managedObjectContext save:&error]) {
                     NSLog(@"Error: %@", error);
                 }
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
             } else {
                 [self.recipe setValuesForKeysWithDictionary:self.backingRecipeAttributes];
                 [self updateUi];
@@ -266,6 +278,20 @@
     self.descriptionTextView.text = self.recipe.overview;
     self.instructionsTextView.text = self.recipe.instructions;
     self.favoriteSwitch.on = [self.recipe.favorite boolValue];
+}
+
+- (void)showSynchronizationView
+{
+    NSArray *nibObjects = [[NSBundle mainBundle] loadNibNamed:@"HRSynchronizationView" owner:self options:nil];
+    self.synchronizationView = (HRSynchronizationView *)[nibObjects objectAtIndex:0];
+    self.synchronizationView.frame = self.view.bounds;
+    [self.synchronizationView setCenter:self.view.center];
+    [self.view addSubview:self.synchronizationView];
+}
+
+- (void)hideSynchronizationView
+{
+    [self.synchronizationView removeFromSuperview];
 }
 
 @end

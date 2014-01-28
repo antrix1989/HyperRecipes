@@ -89,7 +89,7 @@
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="26" id="ljW-bt-F5g"/>
                                 <constraint firstAttribute="width" constant="280" id="pBM-Zs-Wr8"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -111,7 +111,7 @@
                                 <constraint firstAttribute="width" constant="280" id="ig4-JA-veC"/>
                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="26" id="kkc-L5-6R1"/>
                             </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>

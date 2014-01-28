@@ -10,8 +10,6 @@
 
 @interface HRSynchronizationView ()
 
-@property (weak, nonatomic) IBOutlet UILabel *synchronizationLable;
-
 @end
 
 @implementation HRSynchronizationView

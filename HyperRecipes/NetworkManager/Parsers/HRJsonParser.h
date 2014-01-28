@@ -8,8 +8,11 @@
 
 @interface HRJsonParser : NSObject
 
-- (NSDictionary *)attributesForRepresentation:(NSDictionary *)representation ofEntity:(NSEntityDescription *)entity;
+- (void)attributesForRepresentation:(NSDictionary *)representation
+                                     ofEntity:(NSEntityDescription *)entity
+                        withCompletionHandler:(void (^)(NSDictionary *dictionary))completion;
 
-- (NSDictionary *)representationOfAttributes:(NSDictionary *)attributes;
+- (void)representationOfAttributes:(NSDictionary *)attributes
+                       withCompletionHandler:(void (^)(NSDictionary *dictionary))completion;
 
 @end

@@ -40,11 +40,11 @@ static NSString *kDBName = @"HyperRecipes";
     
     [self.window makeKeyAndVisible];
     
-    [self initSynchronizationView];
+    [self showSynchronizationView];
     
     NSLog(@"Synchronization...");
     [[HRNetworkManager sharedInstance] synchronizeDbInContect:self.managedObjectContext withCompletionHandler:^(BOOL success) {
-        [self.synchronizationView removeFromSuperview];
+        [self hideSynchronizationView];
         
         if (success) {
             NSLog(@"Synchronization is done.");
@@ -132,13 +132,18 @@ static NSString *kDBName = @"HyperRecipes";
 
 #pragma mark - Private
 
-- (void)initSynchronizationView
+- (void)showSynchronizationView
 {
     NSArray *nibObjects = [[NSBundle mainBundle] loadNibNamed:@"HRSynchronizationView" owner:self options:nil];
     self.synchronizationView = (HRSynchronizationView *)[nibObjects objectAtIndex:0];
     self.synchronizationView.frame = self.window.rootViewController.view.bounds;
     [self.synchronizationView setCenter:self.window.rootViewController.view.center];
     [self.window.rootViewController.view addSubview:self.synchronizationView];
+}
+
+- (void)hideSynchronizationView
+{
+    [self.synchronizationView removeFromSuperview];
 }
 
 @end
