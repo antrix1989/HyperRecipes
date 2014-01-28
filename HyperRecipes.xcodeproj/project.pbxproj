@@ -20,6 +20,8 @@
 		CB0CF0C81891C58B009E8533 /* HRRecipeEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB0CF0C61891C58B009E8533 /* HRRecipeEditViewController.xib */; };
 		CB0CF0CF1891C5D2009E8533 /* HRRecipeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB0CF0CE1891C5D2009E8533 /* HRRecipeDetailViewController.m */; };
 		CB0CF0D11891C5ED009E8533 /* HRRecipeDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB0CF0D01891C5ED009E8533 /* HRRecipeDetailViewController.xib */; };
+		CB16B85B1898458600456413 /* HRJsonMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CB16B8581898458600456413 /* HRJsonMapper.m */; };
+		CB16B85C1898458600456413 /* HRRecipeMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = CB16B85A1898458600456413 /* HRRecipeMapper.m */; };
 		CB17EC8F1897B1F8006B0F98 /* HRSynchronizationView.m in Sources */ = {isa = PBXBuildFile; fileRef = CB17EC8D1897B1F8006B0F98 /* HRSynchronizationView.m */; };
 		CB17EC911897B210006B0F98 /* HRSynchronizationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB17EC901897B210006B0F98 /* HRSynchronizationView.xib */; };
 		CB2100FA1891089B00788BC6 /* HRRecipeListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CB2100F91891089B00788BC6 /* HRRecipeListViewController.m */; };
@@ -29,8 +31,6 @@
 		CB23A2341895ABD100F15E94 /* _HRRecipe.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2321895ABD100F15E94 /* _HRRecipe.m */; };
 		CB23A2371895ABDC00F15E94 /* HRRecipe.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2351895ABDC00F15E94 /* HRRecipe.m */; };
 		CB23A23B1895AE4E00F15E94 /* HRNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A23A1895AE4E00F15E94 /* HRNetworkManager.m */; };
-		CB23A2421895AEAE00F15E94 /* HRJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2411895AEAE00F15E94 /* HRJsonParser.m */; };
-		CB23A2451895AF3C00F15E94 /* HRRecipeParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CB23A2441895AF3C00F15E94 /* HRRecipeParser.m */; };
 		F12D8696479C46C484936703 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09D4CB6EFD974B7880994914 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -80,6 +80,10 @@
 		CB0CF0CD1891C5D2009E8533 /* HRRecipeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRRecipeDetailViewController.h; sourceTree = "<group>"; };
 		CB0CF0CE1891C5D2009E8533 /* HRRecipeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRRecipeDetailViewController.m; sourceTree = "<group>"; };
 		CB0CF0D01891C5ED009E8533 /* HRRecipeDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HRRecipeDetailViewController.xib; sourceTree = "<group>"; };
+		CB16B8571898458600456413 /* HRJsonMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRJsonMapper.h; sourceTree = "<group>"; };
+		CB16B8581898458600456413 /* HRJsonMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRJsonMapper.m; sourceTree = "<group>"; };
+		CB16B8591898458600456413 /* HRRecipeMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRRecipeMapper.h; sourceTree = "<group>"; };
+		CB16B85A1898458600456413 /* HRRecipeMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRRecipeMapper.m; sourceTree = "<group>"; };
 		CB17EC8D1897B1F8006B0F98 /* HRSynchronizationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRSynchronizationView.m; sourceTree = "<group>"; };
 		CB17EC8E1897B1F8006B0F98 /* HRSynchronizationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRSynchronizationView.h; sourceTree = "<group>"; };
 		CB17EC901897B210006B0F98 /* HRSynchronizationView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HRSynchronizationView.xib; sourceTree = "<group>"; };
@@ -95,10 +99,6 @@
 		CB23A2361895ABDC00F15E94 /* HRRecipe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRRecipe.h; sourceTree = "<group>"; };
 		CB23A2391895AE4E00F15E94 /* HRNetworkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRNetworkManager.h; sourceTree = "<group>"; };
 		CB23A23A1895AE4E00F15E94 /* HRNetworkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRNetworkManager.m; sourceTree = "<group>"; };
-		CB23A2401895AEAE00F15E94 /* HRJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRJsonParser.h; sourceTree = "<group>"; };
-		CB23A2411895AEAE00F15E94 /* HRJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRJsonParser.m; sourceTree = "<group>"; };
-		CB23A2431895AF3C00F15E94 /* HRRecipeParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRRecipeParser.h; sourceTree = "<group>"; };
-		CB23A2441895AF3C00F15E94 /* HRRecipeParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRRecipeParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +218,17 @@
 			path = RecipeDetailViewController;
 			sourceTree = "<group>";
 		};
+		CB16B8561898458600456413 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				CB16B8571898458600456413 /* HRJsonMapper.h */,
+				CB16B8581898458600456413 /* HRJsonMapper.m */,
+				CB16B8591898458600456413 /* HRRecipeMapper.h */,
+				CB16B85A1898458600456413 /* HRRecipeMapper.m */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
 		CB17EC8C1897B1DC006B0F98 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,20 +280,9 @@
 			children = (
 				CB23A2391895AE4E00F15E94 /* HRNetworkManager.h */,
 				CB23A23A1895AE4E00F15E94 /* HRNetworkManager.m */,
-				CB23A23F1895AEAE00F15E94 /* Parsers */,
+				CB16B8561898458600456413 /* Mappers */,
 			);
 			path = NetworkManager;
-			sourceTree = "<group>";
-		};
-		CB23A23F1895AEAE00F15E94 /* Parsers */ = {
-			isa = PBXGroup;
-			children = (
-				CB23A2401895AEAE00F15E94 /* HRJsonParser.h */,
-				CB23A2411895AEAE00F15E94 /* HRJsonParser.m */,
-				CB23A2431895AF3C00F15E94 /* HRRecipeParser.h */,
-				CB23A2441895AF3C00F15E94 /* HRRecipeParser.m */,
-			);
-			path = Parsers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -393,15 +393,15 @@
 			files = (
 				CB23A2251895813C00F15E94 /* HyperRecipes.xcdatamodeld in Sources */,
 				CB17EC8F1897B1F8006B0F98 /* HRSynchronizationView.m in Sources */,
-				CB23A2451895AF3C00F15E94 /* HRRecipeParser.m in Sources */,
 				CB0A5CCF188F001C009A9E1A /* HRAppDelegate.m in Sources */,
 				CB0CF0CF1891C5D2009E8533 /* HRRecipeDetailViewController.m in Sources */,
 				CB23A23B1895AE4E00F15E94 /* HRNetworkManager.m in Sources */,
-				CB23A2421895AEAE00F15E94 /* HRJsonParser.m in Sources */,
 				CB0A5CCB188F001C009A9E1A /* main.m in Sources */,
 				CB23A2371895ABDC00F15E94 /* HRRecipe.m in Sources */,
 				CB2100FA1891089B00788BC6 /* HRRecipeListViewController.m in Sources */,
+				CB16B85B1898458600456413 /* HRJsonMapper.m in Sources */,
 				CB0CF0C71891C58B009E8533 /* HRRecipeEditViewController.m in Sources */,
+				CB16B85C1898458600456413 /* HRRecipeMapper.m in Sources */,
 				CB23A2341895ABD100F15E94 /* _HRRecipe.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

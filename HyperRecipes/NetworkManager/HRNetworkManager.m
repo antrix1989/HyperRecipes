@@ -8,10 +8,9 @@
 
 #import "HRNetworkManager.h"
 #import "AFNetworking.h"
-#import "HRRecipeParser.h"
+#import "HRRecipeMapper.h"
 #import "HRRecipe.h"
 
-//static NSString *const kApiBaseURLString = @"http://0.0.0.0:3000";
 static NSString *const kApiBaseURLString = @"http://hyper-recipes.herokuapp.com";
 
 @implementation HRNetworkManager
@@ -34,7 +33,7 @@ static NSString *const kApiBaseURLString = @"http://hyper-recipes.herokuapp.com"
     return sharedInstance;
 }
 
-- (void)synchronizeDbInContect:(NSManagedObjectContext *)managedObjectContext
+- (void)synchronizeDbInContext:(NSManagedObjectContext *)managedObjectContext
          withCompletionHandler:(void (^)(BOOL success))completion
 {
     NSString *urlString = [NSString stringWithFormat:@"%@/%@.json", kApiBaseURLString, @"recipes"];
@@ -42,7 +41,7 @@ static NSString *const kApiBaseURLString = @"http://hyper-recipes.herokuapp.com"
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         
-        HRRecipeParser *recipeParser = [HRRecipeParser new];
+        HRRecipeMapper *recipeParser = [HRRecipeMapper new];
         
         @try {
             __block NSInteger threadsCount = responseObject.count;
@@ -113,7 +112,7 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
 {
     NSDictionary *managedObjectAttributes = [recipe dictionaryWithValuesForKeys:[recipe.entity.attributesByName allKeys]];
     
-    HRRecipeParser *recipeParser = [HRRecipeParser new];
+    HRRecipeMapper *recipeParser = [HRRecipeMapper new];
     [recipeParser representationOfAttributes:managedObjectAttributes withCompletionHandler:^(NSDictionary *parameters) {
         
         UIImage *photoImage = recipe.photo;
@@ -125,7 +124,10 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
         
         [manager POST:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             if (photoImageData) {
-                [formData appendPartWithFileData:photoImageData name:@"recipe[photo]" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
+                NSString* uuid = [[NSProcessInfo processInfo] globallyUniqueString];
+                [formData appendPartWithFileData:photoImageData name:@"recipe[photo]"
+                                        fileName:[NSString stringWithFormat:@"%@.jpg",uuid]
+                                        mimeType:@"image/jpeg"];
             }
         } success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"Success: %@", responseObject);
@@ -149,7 +151,7 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
 
 - (void)updateRecipe:(HRRecipe *)recipe withCompletionHandler:(void (^)(BOOL success))completion
 {
-    HRRecipeParser *recipeParser = [HRRecipeParser new];
+    HRRecipeMapper *recipeParser = [HRRecipeMapper new];
     
     NSDictionary *managedObjectAttributes = [recipe dictionaryWithValuesForKeys:[recipe.entity.attributesByName allKeys]];
     
@@ -161,7 +163,10 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
         
         NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"PUT" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
             if (photoImageData) {
-                [formData appendPartWithFileData:photoImageData name:@"recipe[photo]" fileName:@"photo.jpg" mimeType:@"image/jpeg"];
+                NSString* uuid = [[NSProcessInfo processInfo] globallyUniqueString];
+                [formData appendPartWithFileData:photoImageData name:@"recipe[photo]"
+                                        fileName:[NSString stringWithFormat:@"%@.jpg",uuid]
+                                        mimeType:@"image/jpeg"];
             }
         } error:nil];
         

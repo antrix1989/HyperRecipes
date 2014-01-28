@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 antrix1989@gmail.com. All rights reserved.
 //
 
-#import "HRJsonParser.h"
+#import "HRJsonMapper.h"
 
-@interface HRRecipeParser : HRJsonParser
+@interface HRRecipeMapper : HRJsonMapper
 
 @end

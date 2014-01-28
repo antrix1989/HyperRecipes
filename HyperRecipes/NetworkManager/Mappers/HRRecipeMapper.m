@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 antrix1989@gmail.com. All rights reserved.
 //
 
-#import "HRRecipeParser.h"
+#import "HRRecipeMapper.h"
 
-@implementation HRRecipeParser
+@implementation HRRecipeMapper
 
 - (void)attributesForRepresentation:(NSDictionary *)representation
                            ofEntity:(NSEntityDescription *)entity

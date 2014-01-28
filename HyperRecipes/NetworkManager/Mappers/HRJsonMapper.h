@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 antrix1989@gmail.com. All rights reserved.
 //
 
-@interface HRJsonParser : NSObject
+@interface HRJsonMapper : NSObject
 
 - (void)attributesForRepresentation:(NSDictionary *)representation
                                      ofEntity:(NSEntityDescription *)entity

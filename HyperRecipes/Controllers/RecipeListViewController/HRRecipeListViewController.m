@@ -104,10 +104,10 @@
                     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                 }
             } else {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notice!"
-                                                                message:@"Recipe is not deleted. Error on server has occured."
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Notice!", nil)
+                                                                message:NSLocalizedString(@"Recipe is not deleted. Error on server has occured.", nil)
                                                                delegate:nil
-                                                      cancelButtonTitle:@"OK"
+                                                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                                       otherButtonTitles: nil];
                 [alert show];
             }

@@ -12,7 +12,7 @@
 
 + (instancetype)sharedInstance;
 
-- (void)synchronizeDbInContect:(NSManagedObjectContext *)managedObjectContext withCompletionHandler:(void (^)(BOOL success))completion;
+- (void)synchronizeDbInContext:(NSManagedObjectContext *)managedObjectContext withCompletionHandler:(void (^)(BOOL success))completion;
 
 - (void)createRecipe:(HRRecipe *)recipe
          withContext:(NSManagedObjectContext *)managedObjectContext

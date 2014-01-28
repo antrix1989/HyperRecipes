@@ -135,10 +135,10 @@
                 [self dismissViewControllerAnimated:YES completion:nil];
             } else {
                 [self dismissViewControllerAnimated:YES completion:^{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notice!"
-                                                                    message:@"Recipe is not saved. Error on server has occured."
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Notice!", nil)
+                                                                    message:NSLocalizedString(@"Recipe is not saved. Error on server has occured.", nil)
                                                                    delegate:nil
-                                                          cancelButtonTitle:@"OK"
+                                                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                                           otherButtonTitles: nil];
                     [alert show];
                 }];
@@ -160,10 +160,10 @@
                 [self updateUi];
                 
                 [self dismissViewControllerAnimated:YES completion:^{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notice!"
-                                                                    message:@"Recipe is not updated. Error on server has occured."
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Notice!", nil)
+                                                                    message:NSLocalizedString(@"Recipe is not updated. Error on server has occured.", nil)
                                                                    delegate:nil
-                                                          cancelButtonTitle:@"OK"
+                                                          cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                                           otherButtonTitles: nil];
                     [alert show];
                 }];

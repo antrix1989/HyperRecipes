@@ -43,7 +43,7 @@ static NSString *kDBName = @"HyperRecipes";
     [self showSynchronizationView];
     
     NSLog(@"Synchronization...");
-    [[HRNetworkManager sharedInstance] synchronizeDbInContect:self.managedObjectContext withCompletionHandler:^(BOOL success) {
+    [[HRNetworkManager sharedInstance] synchronizeDbInContext:self.managedObjectContext withCompletionHandler:^(BOOL success) {
         [self hideSynchronizationView];
         
         if (success) {
@@ -51,10 +51,10 @@ static NSString *kDBName = @"HyperRecipes";
         } else {
             NSLog(@"Synchronization is failed.");
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Notice!"
-                                                            message:@"Synchronization is failed."
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Notice!", nil)
+                                                            message:NSLocalizedString(@"Synchronization is failed.", nil)
                                                            delegate:nil
-                                                  cancelButtonTitle:@"OK"
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", nil)
                                                   otherButtonTitles: nil];
             [alert show];
         }
