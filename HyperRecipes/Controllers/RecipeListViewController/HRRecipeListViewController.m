@@ -11,6 +11,9 @@
 #import "HRRecipeDetailViewController.h"
 #import "HRNetworkManager.h"
 #import "HRRecipe.h"
+#import "HRRecipeListItemCell.h"
+
+static NSString *kRecipeListItemCell = @"HRRecipeListItemCell";
 
 @interface HRRecipeListViewController () <NSFetchedResultsControllerDelegate>
 
@@ -25,6 +28,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [self.tableView registerNib:[UINib nibWithNibName:kRecipeListItemCell bundle:nil] forCellReuseIdentifier:kRecipeListItemCell];
     
     self.title = NSLocalizedString(@"Recipes", nil);
     
@@ -72,16 +77,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellIdentifier = @"Cell";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
+    HRRecipeListItemCell *cell = [tableView dequeueReusableCellWithIdentifier:kRecipeListItemCell];
     
     HRRecipe *recipe = (HRRecipe *)[_fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [recipe name];
-    cell.imageView.image = recipe.photo;
+    cell.recipe = recipe;
     
     return cell;
 }

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB03D6921899096700A38DF0 /* HRRecipeListItemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CB03D6911899096700A38DF0 /* HRRecipeListItemCell.m */; };
+		CB03D6941899098400A38DF0 /* HRRecipeListItemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CB03D6931899098400A38DF0 /* HRRecipeListItemCell.xib */; };
 		CB0A5CBF188F001C009A9E1A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB0A5CBE188F001C009A9E1A /* Foundation.framework */; };
 		CB0A5CC1188F001C009A9E1A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB0A5CC0188F001C009A9E1A /* CoreGraphics.framework */; };
 		CB0A5CC3188F001C009A9E1A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB0A5CC2188F001C009A9E1A /* UIKit.framework */; };
@@ -60,6 +62,9 @@
 /* Begin PBXFileReference section */
 		09D4CB6EFD974B7880994914 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5016F4FBA00B485DA9267474 /* Pods/Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		CB03D6901899096700A38DF0 /* HRRecipeListItemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HRRecipeListItemCell.h; sourceTree = "<group>"; };
+		CB03D6911899096700A38DF0 /* HRRecipeListItemCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HRRecipeListItemCell.m; sourceTree = "<group>"; };
+		CB03D6931899098400A38DF0 /* HRRecipeListItemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HRRecipeListItemCell.xib; sourceTree = "<group>"; };
 		CB0A5CBB188F001C009A9E1A /* HyperRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HyperRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB0A5CBE188F001C009A9E1A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CB0A5CC0188F001C009A9E1A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -118,6 +123,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB03D68F1899096700A38DF0 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				CB03D6901899096700A38DF0 /* HRRecipeListItemCell.h */,
+				CB03D6911899096700A38DF0 /* HRRecipeListItemCell.m */,
+				CB03D6931899098400A38DF0 /* HRRecipeListItemCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		CB0A5CB2188F001C009A9E1A = {
 			isa = PBXGroup;
 			children = (
@@ -159,6 +174,7 @@
 				CB0A5CF7188F21B9009A9E1A /* Controllers */,
 				CB0A5CF0188F0592009A9E1A /* Models */,
 				CB17EC8C1897B1DC006B0F98 /* Views */,
+				CB03D68F1899096700A38DF0 /* Cells */,
 				CB0A5CD0188F001C009A9E1A /* Images.xcassets */,
 				CB23A21818957C3E00F15E94 /* Scripts */,
 				CB0A5CC5188F001C009A9E1A /* Supporting Files */,
@@ -347,6 +363,7 @@
 				CB0A5CD1188F001C009A9E1A /* Images.xcassets in Resources */,
 				CB17EC911897B210006B0F98 /* HRSynchronizationView.xib in Resources */,
 				CB0CF0C81891C58B009E8533 /* HRRecipeEditViewController.xib in Resources */,
+				CB03D6941899098400A38DF0 /* HRRecipeListItemCell.xib in Resources */,
 				CB23A21B18957C3E00F15E94 /* mogen.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -394,6 +411,7 @@
 				CB23A2251895813C00F15E94 /* HyperRecipes.xcdatamodeld in Sources */,
 				CB17EC8F1897B1F8006B0F98 /* HRSynchronizationView.m in Sources */,
 				CB0A5CCF188F001C009A9E1A /* HRAppDelegate.m in Sources */,
+				CB03D6921899096700A38DF0 /* HRRecipeListItemCell.m in Sources */,
 				CB0CF0CF1891C5D2009E8533 /* HRRecipeDetailViewController.m in Sources */,
 				CB23A23B1895AE4E00F15E94 /* HRNetworkManager.m in Sources */,
 				CB0A5CCB188F001C009A9E1A /* main.m in Sources */,
