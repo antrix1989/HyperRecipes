@@ -41,61 +41,31 @@ static NSString *const kApiBaseURLString = @"http://hyper-recipes.herokuapp.com"
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, NSArray *responseObject) {
         
-        HRRecipeMapper *recipeParser = [HRRecipeMapper new];
+        dispatch_queue_t queue = dispatch_queue_create("com.hyperrecipes.queue", DISPATCH_QUEUE_CONCURRENT);
         
-        @try {
-            __block NSInteger threadsCount = responseObject.count;
-            for (id representation in responseObject) {
-                NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:managedObjectContext];
-                
-                [recipeParser attributesForRepresentation:representation ofEntity:entityDescription withCompletionHandler:^(NSDictionary *attributes) {
-                    threadsCount--;
-                    
-                    NSString *referenceID = [attributes objectForKey:@"referenceID"];
-                    
-                    NSFetchRequest *fetchRequest = [NSFetchRequest new];
-                    [fetchRequest setEntity:entityDescription];
-                    [fetchRequest setPredicate: [NSPredicate predicateWithFormat: @"referenceID == %@", referenceID]];
-                    
-                    NSError *error;
-                    NSArray *recipes = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-                    
-                    HRRecipe *recipe = nil;
-                    if (recipes.count > 0) {
-                        recipe = [recipes objectAtIndex:0];
-                    } else {
-                        recipe = [NSEntityDescription insertNewObjectForEntityForName:@"HRRecipe" inManagedObjectContext:managedObjectContext];
-                    }
-                    
-                    [recipe setValuesForKeysWithDictionary:attributes];
-                    
-                    if (threadsCount == 0) {
-                        // Save context.
-                        NSError *error;
-                        if (![managedObjectContext save:&error]) {
-                            NSLog(@"Error: %@", error);
-                            
-                            if (completion) {
-                                completion(NO);
-                            }
-                        } else {
-                            if (completion) {
-                                completion(YES);
-                            }
-                        }
-                        
-                        return;
-                    }
-                }];
-            }
-            
-        } @catch (NSException *exception) {
-            NSLog(@"Exception: %@", exception);
-            
-            if (completion) {
-                completion(NO);
-            }
+        for (id representation in responseObject) {
+            dispatch_async(queue, ^{
+                [self insertOrUpdateRecipeFromRepresentation:representation inManagedObjectContext:managedObjectContext];
+            });
         }
+        
+        dispatch_barrier_async(queue, ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // Save context.
+                NSError *error;
+                if (![managedObjectContext save:&error]) {
+                    NSLog(@"Error: %@", error);
+                    
+                    if (completion) {
+                        completion(NO);
+                    }
+                } else {
+                    if (completion) {
+                        completion(YES);
+                    }
+                }
+            });
+        });
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -134,11 +104,11 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
             
             NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:managedObjectContext];
             
-            [recipeParser attributesForRepresentation:responseObject ofEntity:entityDescription withCompletionHandler:^(NSDictionary *attributes) {
-                if (completion) {
-                    completion(YES, attributes);
-                }
-            }];
+            NSDictionary *attributes = [recipeParser attributesForRepresentation:responseObject ofEntity:entityDescription];
+            
+            if (completion) {
+                completion(YES, attributes);
+            }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"Error: %@", error);
             
@@ -212,6 +182,39 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
             completion(NO);
         }
     }];
+}
+
+#pragma mark - Private
+
+- (void)insertOrUpdateRecipeFromRepresentation:(id)representation inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+{
+    @try {
+        HRRecipeMapper *recipeParser = [HRRecipeMapper new];
+        
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:managedObjectContext];
+        
+        NSDictionary *attributes = [recipeParser attributesForRepresentation:representation ofEntity:entityDescription];
+        
+        NSString *referenceID = [attributes objectForKey:@"referenceID"];
+        
+        NSFetchRequest *fetchRequest = [NSFetchRequest new];
+        [fetchRequest setEntity:entityDescription];
+        [fetchRequest setPredicate: [NSPredicate predicateWithFormat: @"referenceID == %@", referenceID]];
+        
+        NSError *error;
+        NSArray *recipes = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        
+        HRRecipe *recipe = nil;
+        if (recipes.count > 0) {
+            recipe = [recipes objectAtIndex:0];
+        } else {
+            recipe = [NSEntityDescription insertNewObjectForEntityForName:@"HRRecipe" inManagedObjectContext:managedObjectContext];
+        }
+        
+        [recipe setValuesForKeysWithDictionary:attributes];
+    } @catch (NSException *exception) {
+        NSLog(@"Exception: %@", exception);
+    }
 }
 
 @end

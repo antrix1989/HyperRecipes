@@ -8,9 +8,7 @@
 
 @interface HRJsonMapper : NSObject
 
-- (void)attributesForRepresentation:(NSDictionary *)representation
-                                     ofEntity:(NSEntityDescription *)entity
-                        withCompletionHandler:(void (^)(NSDictionary *dictionary))completion;
+- (NSDictionary *)attributesForRepresentation:(NSDictionary *)representation ofEntity:(NSEntityDescription *)entity;
 
 - (void)representationOfAttributes:(NSDictionary *)attributes
                        withCompletionHandler:(void (^)(NSDictionary *dictionary))completion;

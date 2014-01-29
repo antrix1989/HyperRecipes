@@ -10,17 +10,10 @@
 
 @implementation HRJsonMapper
 
-- (void)attributesForRepresentation:(NSDictionary *)representation
-                           ofEntity:(NSEntityDescription *)entity
-              withCompletionHandler:(void (^)(NSDictionary *dictionary))completion;
+- (NSDictionary *)attributesForRepresentation:(NSDictionary *)representation ofEntity:(NSEntityDescription *)entity;
 {
-    if (!completion) {
-        return;
-    }
-    
     if ([representation isEqual:[NSNull null]]) {
-        completion(nil);
-        return;
+        return nil;
     }
     
     NSMutableDictionary *mutableAttributes = [representation mutableCopy];
@@ -31,7 +24,7 @@
         [mutableAttributes removeObjectsForKeys:[mutableKeys allObjects]];
     }
     
-    completion(mutableAttributes);
+    return mutableAttributes;
 }
 
 - (void)representationOfAttributes:(NSDictionary *)attributes

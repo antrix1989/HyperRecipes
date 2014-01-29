@@ -10,47 +10,36 @@
 
 @implementation HRRecipeMapper
 
-- (void)attributesForRepresentation:(NSDictionary *)representation
-                           ofEntity:(NSEntityDescription *)entity
-              withCompletionHandler:(void (^)(NSDictionary *dictionary))completion;
+- (NSDictionary *)attributesForRepresentation:(NSDictionary *)representation ofEntity:(NSEntityDescription *)entity
 {
-    if (!completion) {
-        return;
+    NSDictionary *dictionary = [super attributesForRepresentation:representation ofEntity:entity];
+    
+    NSMutableDictionary *mutableAttributes = [dictionary mutableCopy];
+    
+    NSNumberFormatter *numberFormatter = [NSNumberFormatter new];
+    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    
+    NSString *difficulty = [mutableAttributes objectForKey:@"difficulty"];
+    [mutableAttributes setObject:[numberFormatter numberFromString:difficulty] forKey:@"difficulty"];
+    
+    NSString *referenceID = [representation objectForKey:@"id"];
+    if (referenceID) {
+        [mutableAttributes setObject:referenceID forKey:@"referenceID"];
     }
     
-    [super attributesForRepresentation:representation ofEntity:entity withCompletionHandler:^(NSDictionary *dictionary) {
+    NSString *photoUrlString = [[mutableAttributes objectForKey:@"photo"] objectForKey:@"url"];
     
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSMutableDictionary *mutableAttributes = [dictionary mutableCopy];
-            
-            NSNumberFormatter *numberFormatter = [NSNumberFormatter new];
-            [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-            
-            NSString *difficulty = [mutableAttributes objectForKey:@"difficulty"];
-            [mutableAttributes setObject:[numberFormatter numberFromString:difficulty] forKey:@"difficulty"];
-            
-            NSString *referenceID = [representation objectForKey:@"id"];
-            if (referenceID) {
-                [mutableAttributes setObject:referenceID forKey:@"referenceID"];
-            }
-            
-            NSString *photoUrlString = [[mutableAttributes objectForKey:@"photo"] objectForKey:@"url"];
-            
-            if (![photoUrlString isEqual:[NSNull null]]) {
-                NSURL *photoUrl = [NSURL URLWithString:photoUrlString];
-                NSData *data = [NSData dataWithContentsOfURL:photoUrl];
-                UIImage *photoImage = [[UIImage alloc] initWithData:data];
-                
-                [mutableAttributes setObject:photoImage forKey:@"photo"];
-            } else {
-                [mutableAttributes removeObjectForKey:@"photo"];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completion(mutableAttributes);
-            });
-        });
-    }];
+    if (![photoUrlString isEqual:[NSNull null]]) {
+        NSURL *photoUrl = [NSURL URLWithString:photoUrlString];
+        NSData *data = [NSData dataWithContentsOfURL:photoUrl];
+        UIImage *photoImage = [[UIImage alloc] initWithData:data];
+        
+        [mutableAttributes setObject:photoImage forKey:@"photo"];
+    } else {
+        [mutableAttributes removeObjectForKey:@"photo"];
+    }
+    
+    return mutableAttributes;
 }
 
 - (void)representationOfAttributes:(NSDictionary *)attributes
