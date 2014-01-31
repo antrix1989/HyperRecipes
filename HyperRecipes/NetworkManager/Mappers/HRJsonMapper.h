@@ -10,7 +10,6 @@
 
 - (NSDictionary *)attributesForRepresentation:(NSDictionary *)representation ofEntity:(NSEntityDescription *)entity;
 
-- (void)representationOfAttributes:(NSDictionary *)attributes
-                       withCompletionHandler:(void (^)(NSDictionary *dictionary))completion;
+- (NSDictionary *)representationOfAttributes:(NSDictionary *)attributes;
 
 @end

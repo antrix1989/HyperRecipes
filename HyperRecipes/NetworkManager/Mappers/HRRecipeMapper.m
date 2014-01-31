@@ -45,13 +45,8 @@
     return mutableAttributes;
 }
 
-- (void)representationOfAttributes:(NSDictionary *)attributes
-             withCompletionHandler:(void (^)(NSDictionary *dictionary))completion
+- (NSDictionary *)representationOfAttributes:(NSDictionary *)attributes
 {
-    if (!completion) {
-        return;
-    }
-    
     NSMutableDictionary *mutableAttributes = [attributes mutableCopy];
     
     [mutableAttributes setObject:mutableAttributes[@"overview"] forKey:@"description"];
@@ -60,7 +55,7 @@
     [mutableAttributes removeObjectForKey:@"overview"];
     [mutableAttributes removeObjectForKey:@"referenceID"];
     
-    completion(@{@"recipe":mutableAttributes});
+    return @{@"recipe":mutableAttributes};
 }
 
 @end

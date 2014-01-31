@@ -18,21 +18,16 @@
     
     NSMutableDictionary *mutableAttributes = [representation mutableCopy];
     
-    @autoreleasepool {
-        NSMutableSet *mutableKeys = [NSMutableSet setWithArray:[representation allKeys]];
-        [mutableKeys minusSet:[NSSet setWithArray:[[entity attributesByName] allKeys]]];
-        [mutableAttributes removeObjectsForKeys:[mutableKeys allObjects]];
-    }
+    NSMutableSet *mutableKeys = [NSMutableSet setWithArray:[representation allKeys]];
+    [mutableKeys minusSet:[NSSet setWithArray:[[entity attributesByName] allKeys]]];
+    [mutableAttributes removeObjectsForKeys:[mutableKeys allObjects]];
     
     return mutableAttributes;
 }
 
-- (void)representationOfAttributes:(NSDictionary *)attributes
-             withCompletionHandler:(void (^)(NSDictionary *dictionary))completion;
+- (NSDictionary *)representationOfAttributes:(NSDictionary *)attributes;
 {
-    if (completion) {
-        completion(attributes);
-    }
+    return attributes;
 }
 
 @end

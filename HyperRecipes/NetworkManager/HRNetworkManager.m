@@ -73,39 +73,38 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
     NSDictionary *managedObjectAttributes = [recipe dictionaryWithValuesForKeys:[recipe.entity.attributesByName allKeys]];
     
     HRRecipeMapper *recipeMapper = [HRRecipeMapper new];
-    [recipeMapper representationOfAttributes:managedObjectAttributes withCompletionHandler:^(NSDictionary *parameters) {
+    NSDictionary *parameters = [recipeMapper representationOfAttributes:managedObjectAttributes];
         
-        UIImage *photoImage = recipe.photo;
-        NSData *photoImageData = UIImageJPEGRepresentation(photoImage, 90);
+    UIImage *photoImage = recipe.photo;
+    NSData *photoImageData = UIImageJPEGRepresentation(photoImage, 90);
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@.json", kApiBaseURLString, @"recipes"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager POST:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        if (photoImageData) {
+            NSString* uuid = [[NSProcessInfo processInfo] globallyUniqueString];
+            [formData appendPartWithFileData:photoImageData name:@"recipe[photo]"
+                                    fileName:[NSString stringWithFormat:@"%@.jpg",uuid]
+                                    mimeType:@"image/jpeg"];
+        }
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@", responseObject);
         
-        NSString *urlString = [NSString stringWithFormat:@"%@/%@.json", kApiBaseURLString, @"recipes"];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:managedObjectContext];
         
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        NSDictionary *attributes = [recipeMapper attributesForRepresentation:responseObject ofEntity:entityDescription];
         
-        [manager POST:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-            if (photoImageData) {
-                NSString* uuid = [[NSProcessInfo processInfo] globallyUniqueString];
-                [formData appendPartWithFileData:photoImageData name:@"recipe[photo]"
-                                        fileName:[NSString stringWithFormat:@"%@.jpg",uuid]
-                                        mimeType:@"image/jpeg"];
-            }
-        } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"Success: %@", responseObject);
-            
-            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:managedObjectContext];
-            
-            NSDictionary *attributes = [recipeMapper attributesForRepresentation:responseObject ofEntity:entityDescription];
-            
-            if (completion) {
-                completion(YES, attributes);
-            }
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            NSLog(@"Error: %@", error);
-            
-            if (completion) {
-                completion(NO, nil);
-            }
-        }];
+        if (completion) {
+            completion(YES, attributes);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        
+        if (completion) {
+            completion(NO, nil);
+        }
     }];
 }
 
@@ -114,43 +113,41 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
     HRRecipeMapper *recipeMapper = [HRRecipeMapper new];
     
     NSDictionary *managedObjectAttributes = [recipe dictionaryWithValuesForKeys:[recipe.entity.attributesByName allKeys]];
+    NSDictionary *parameters = [recipeMapper representationOfAttributes:managedObjectAttributes];
+    UIImage *photoImage = recipe.photo;
+    NSData *photoImageData = UIImageJPEGRepresentation(photoImage, 90);
     
-    [recipeMapper representationOfAttributes:managedObjectAttributes withCompletionHandler:^(NSDictionary *parameters) {
-        UIImage *photoImage = recipe.photo;
-        NSData *photoImageData = UIImageJPEGRepresentation(photoImage, 90);
-        
-        NSString *urlString = [NSString stringWithFormat:@"%@/%@/%d", kApiBaseURLString, @"recipes", [recipe.referenceID integerValue]];
-        
-        NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"PUT" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-            if (photoImageData) {
-                NSString* uuid = [[NSProcessInfo processInfo] globallyUniqueString];
-                [formData appendPartWithFileData:photoImageData name:@"recipe[photo]"
-                                        fileName:[NSString stringWithFormat:@"%@.jpg",uuid]
-                                        mimeType:@"image/jpeg"];
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@/%d", kApiBaseURLString, @"recipes", [recipe.referenceID integerValue]];
+    
+    NSMutableURLRequest *request = [[AFHTTPRequestSerializer serializer] multipartFormRequestWithMethod:@"PUT" URLString:urlString parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        if (photoImageData) {
+            NSString* uuid = [[NSProcessInfo processInfo] globallyUniqueString];
+            [formData appendPartWithFileData:photoImageData name:@"recipe[photo]"
+                                    fileName:[NSString stringWithFormat:@"%@.jpg",uuid]
+                                    mimeType:@"image/jpeg"];
+        }
+    } error:nil];
+    
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    NSProgress *progress = nil;
+    
+    NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:&progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        if (error) {
+            NSLog(@"Error: %@", error);
+            
+            if (completion) {
+                completion(NO);
             }
-        } error:nil];
-        
-        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        NSProgress *progress = nil;
-        
-        NSURLSessionUploadTask *uploadTask = [manager uploadTaskWithStreamedRequest:request progress:&progress completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-            if (error) {
-                NSLog(@"Error: %@", error);
-                
-                if (completion) {
-                    completion(NO);
-                }
-            } else {
-                NSLog(@"%@ %@", response, responseObject);
-                
-                if (completion) {
-                    completion(YES);
-                }
+        } else {
+            NSLog(@"%@ %@", response, responseObject);
+            
+            if (completion) {
+                completion(YES);
             }
-        }];
-        
-        [uploadTask resume];
+        }
     }];
+    
+    [uploadTask resume];
 }
 
 - (void)deleteRecipe:(HRRecipe *)recipe withCompletionHandler:(void (^)(BOOL success))completion
