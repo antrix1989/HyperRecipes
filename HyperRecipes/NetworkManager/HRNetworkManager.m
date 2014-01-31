@@ -51,19 +51,9 @@ static NSString *const kApiBaseURLString = @"http://hyper-recipes.herokuapp.com"
         
         dispatch_barrier_async(queue, ^{
             dispatch_async(dispatch_get_main_queue(), ^{
-                // Save context.
-                NSError *error;
-                if (![managedObjectContext save:&error]) {
-                    NSLog(@"Error: %@", error);
-                    
-                    if (completion) {
-                        completion(NO);
-                    }
-                } else {
                     if (completion) {
                         completion(YES);
                     }
-                }
             });
         });
         
@@ -186,12 +176,18 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
 
 #pragma mark - Private
 
-- (void)insertOrUpdateRecipeFromRepresentation:(id)representation inManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+- (void)insertOrUpdateRecipeFromRepresentation:(id)representation inManagedObjectContext:(NSManagedObjectContext *)defaultContext
 {
     @try {
+        NSManagedObjectContext *backingManagedObjectContext = [NSManagedObjectContext new];
+        [backingManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
+        
+        backingManagedObjectContext.persistentStoreCoordinator = defaultContext.persistentStoreCoordinator;
+        backingManagedObjectContext.retainsRegisteredObjects = YES;
+        
         HRRecipeMapper *recipeParser = [HRRecipeMapper new];
         
-        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:managedObjectContext];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:backingManagedObjectContext];
         
         NSDictionary *attributes = [recipeParser attributesForRepresentation:representation ofEntity:entityDescription];
         
@@ -199,19 +195,35 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
         
         NSFetchRequest *fetchRequest = [NSFetchRequest new];
         [fetchRequest setEntity:entityDescription];
-        [fetchRequest setPredicate: [NSPredicate predicateWithFormat: @"referenceID == %@", referenceID]];
+        [fetchRequest setPredicate: [NSPredicate predicateWithFormat:@"referenceID == %@", referenceID]];
         
         NSError *error;
-        NSArray *recipes = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *recipes = [backingManagedObjectContext executeFetchRequest:fetchRequest error:&error];
         
         HRRecipe *recipe = nil;
         if (recipes.count > 0) {
             recipe = [recipes objectAtIndex:0];
         } else {
-            recipe = [NSEntityDescription insertNewObjectForEntityForName:@"HRRecipe" inManagedObjectContext:managedObjectContext];
+            recipe = [NSEntityDescription insertNewObjectForEntityForName:@"HRRecipe" inManagedObjectContext:backingManagedObjectContext];
         }
         
         [recipe setValuesForKeysWithDictionary:attributes];
+        
+        __block __weak id observer = [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:backingManagedObjectContext queue:nil usingBlock:^(NSNotification *notification) {
+            [[NSNotificationCenter defaultCenter] removeObserver:observer
+                                                            name:NSManagedObjectContextDidSaveNotification
+                                                          object:backingManagedObjectContext];
+            
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [defaultContext mergeChangesFromContextDidSaveNotification:notification];
+            });
+        }];
+        
+        // Save context.
+        if (![backingManagedObjectContext save:&error]) {
+            NSLog(@"Error: %@", error);
+        }
+
     } @catch (NSException *exception) {
         NSLog(@"Exception: %@", exception);
     }

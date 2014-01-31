@@ -77,6 +77,7 @@ static NSString *kDBName = @"HyperRecipes";
     if (coordinator != nil) {
         _managedObjectContext = [NSManagedObjectContext new];
         [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+        [_managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
     }
     
     return _managedObjectContext;

@@ -22,6 +22,9 @@
     NSString *difficulty = [mutableAttributes objectForKey:@"difficulty"];
     [mutableAttributes setObject:[numberFormatter numberFromString:difficulty] forKey:@"difficulty"];
     
+    NSString *description = [representation objectForKey:@"description"];
+    [mutableAttributes setObject:description forKey:@"overview"];
+    
     NSString *referenceID = [representation objectForKey:@"id"];
     if (referenceID) {
         [mutableAttributes setObject:referenceID forKey:@"referenceID"];
@@ -38,7 +41,7 @@
     } else {
         [mutableAttributes removeObjectForKey:@"photo"];
     }
-    
+
     return mutableAttributes;
 }
 
