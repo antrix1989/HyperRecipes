@@ -72,8 +72,8 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
 {
     NSDictionary *managedObjectAttributes = [recipe dictionaryWithValuesForKeys:[recipe.entity.attributesByName allKeys]];
     
-    HRRecipeMapper *recipeParser = [HRRecipeMapper new];
-    [recipeParser representationOfAttributes:managedObjectAttributes withCompletionHandler:^(NSDictionary *parameters) {
+    HRRecipeMapper *recipeMapper = [HRRecipeMapper new];
+    [recipeMapper representationOfAttributes:managedObjectAttributes withCompletionHandler:^(NSDictionary *parameters) {
         
         UIImage *photoImage = recipe.photo;
         NSData *photoImageData = UIImageJPEGRepresentation(photoImage, 90);
@@ -94,7 +94,7 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
             
             NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:managedObjectContext];
             
-            NSDictionary *attributes = [recipeParser attributesForRepresentation:responseObject ofEntity:entityDescription];
+            NSDictionary *attributes = [recipeMapper attributesForRepresentation:responseObject ofEntity:entityDescription];
             
             if (completion) {
                 completion(YES, attributes);
@@ -111,11 +111,11 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
 
 - (void)updateRecipe:(HRRecipe *)recipe withCompletionHandler:(void (^)(BOOL success))completion
 {
-    HRRecipeMapper *recipeParser = [HRRecipeMapper new];
+    HRRecipeMapper *recipeMapper = [HRRecipeMapper new];
     
     NSDictionary *managedObjectAttributes = [recipe dictionaryWithValuesForKeys:[recipe.entity.attributesByName allKeys]];
     
-    [recipeParser representationOfAttributes:managedObjectAttributes withCompletionHandler:^(NSDictionary *parameters) {
+    [recipeMapper representationOfAttributes:managedObjectAttributes withCompletionHandler:^(NSDictionary *parameters) {
         UIImage *photoImage = recipe.photo;
         NSData *photoImageData = UIImageJPEGRepresentation(photoImage, 90);
         
@@ -185,11 +185,11 @@ withCompletionHandler:(void (^)(BOOL success, NSDictionary* attributes))completi
         backingManagedObjectContext.persistentStoreCoordinator = defaultContext.persistentStoreCoordinator;
         backingManagedObjectContext.retainsRegisteredObjects = YES;
         
-        HRRecipeMapper *recipeParser = [HRRecipeMapper new];
+        HRRecipeMapper *recipeMapper = [HRRecipeMapper new];
         
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"HRRecipe" inManagedObjectContext:backingManagedObjectContext];
         
-        NSDictionary *attributes = [recipeParser attributesForRepresentation:representation ofEntity:entityDescription];
+        NSDictionary *attributes = [recipeMapper attributesForRepresentation:representation ofEntity:entityDescription];
         
         NSString *referenceID = [attributes objectForKey:@"referenceID"];
         
