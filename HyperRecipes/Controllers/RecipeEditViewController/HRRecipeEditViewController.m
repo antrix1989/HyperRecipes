@@ -131,7 +131,26 @@
             if (success) {
                 [self.recipe setValuesForKeysWithDictionary:attributes];
                 [self.managedObjectContext insertObject:self.recipe];
-                
+        
+                NSManagedObjectContext *temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+                temporaryContext.parentContext = self.managedObjectContext;
+        
+                [temporaryContext performBlock:^{
+                    // push to parent
+                    NSError *error;
+                    if (![temporaryContext save:&error]) {
+                         NSLog(@"Error: %@", error);
+                    }
+                    
+                    // save parent to disk asynchronously
+                    [self.managedObjectContext performBlock:^{
+                        NSError *error;
+                        if (![self.managedObjectContext save:&error]) {
+                             NSLog(@"Error: %@", error);
+                        }
+                    }];
+                }];
+        
                 [self dismissViewControllerAnimated:YES completion:nil];
             } else {
                 [self dismissViewControllerAnimated:YES completion:^{
